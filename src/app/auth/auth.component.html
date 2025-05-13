@@ -1,0 +1,14 @@
+<div class="auth-container">
+  <h2>{{ isSignUp ? 'Sign Up' : 'Login' }}</h2>
+  
+  <input type="text" placeholder="Username" [(ngModel)]="username" />
+  <input type="password" placeholder="Password" [(ngModel)]="password" />
+  
+  <button (click)="handleAuth()">{{ isSignUp ? 'Sign Up' : 'Login' }}</button>
+
+  <p *ngIf="message">{{ message }}</p>
+  
+  <a (click)="isSignUp = !isSignUp">
+    {{ isSignUp ? 'Already have an account? Login' : 'Don’t have an account? Sign Up' }}
+  </a>
+</div>

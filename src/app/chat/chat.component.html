@@ -1,0 +1,27 @@
+<div class="chat-container">
+    <!-- Profile Row -->
+    <div class="profile-row">
+      <span>Welcome, <strong>{{ username }}</strong></span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  
+    <!-- Messages Section -->
+    <div class="messages">
+      <div *ngFor="let msg of messages" class="message">
+        <strong>{{ msg.sender }}</strong>: {{ msg.content }}
+        <span class="timestamp">{{ msg.created_at | date:'shortTime' }}</span>
+      </div>
+    </div>
+  
+    <!-- Input Section -->
+    <div class="input-area">
+      <input 
+        type="text" 
+        [(ngModel)]="newMessage" 
+        placeholder="Type your message..." 
+        (keyup.enter)="sendMessage()" 
+      />
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+  
