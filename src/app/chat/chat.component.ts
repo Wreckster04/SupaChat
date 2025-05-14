@@ -8,8 +8,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
-  standalone:true,
-  imports:[CommonModule,FormsModule]
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class ChatComponent implements OnInit {
   messages: any[] = [];
@@ -18,23 +18,25 @@ export class ChatComponent implements OnInit {
 
   constructor(private supabaseService: SupabaseService, private router: Router) {}
 
-  async ngOnInit() {
-    // Prompt for username if not set
+  ngOnInit(): void {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       this.username = storedUsername;
+      this.loadMessages();
     } else {
-      this.username = prompt('Enter your username:') || 'Anonymous';
-      localStorage.setItem('username', this.username);
+      setTimeout(() => {
+        const inputUsername = prompt('Enter your username:');
+        this.username = inputUsername ? inputUsername : 'Anonymous';
+        localStorage.setItem('username', this.username);
+        this.loadMessages(); // Load after username is set
+      }, 0);
     }
+  }
 
-    // Fetch messages
+  async loadMessages() {
     const { data, error } = await this.supabaseService.getMessages();
-    if (data) {
-      this.messages = data;
-    }
+    if (data) this.messages = data;
 
-    // Listen for real-time messages
     this.supabaseService.onNewMessage((message) => {
       this.messages.push(message);
     });
